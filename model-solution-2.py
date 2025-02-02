@@ -37,7 +37,7 @@ for x in range(index_environment):
 
 #print("Fire Risk Column Calculated")
 #print("Number of matching timestamps:", num_wildfire)
-historical_fire_risk.to_csv("ProcessedData.csv")
+historical_fire_risk.to_csv("Processed_Data.csv")
 
 # Split dataframe into X and y
 y = historical_fire_risk["fire_risk"]
@@ -97,10 +97,11 @@ location_list = location_df.values.tolist()
 #print(location_list)
 
 # initialize the map and store it in a m object
-my_map = folium.Map(location = [44.2365, -72.1486], zoom_start = 4)
+# reference https://www.codespeedy.com/draw-maps-using-latitude-and-longitude-python-using-folium/
+my_map = folium.Map(location = [44.2365, -72.1486], zoom_start = 10)
 for lat, lon in location_list:
     popup_text = f"<br>Latitude: {lat}<br>Longitude: {lon}"
     folium.Marker([lat, lon], popup=popup_text).add_to(my_map)
-# show the map
+# save the map
 my_map.save('my_map.html')
-
+print(my_map)
