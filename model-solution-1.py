@@ -11,8 +11,6 @@ deployable_units = {
     "Tanker Planes": [120, 15000, 2]
 }
 
-deployable_units_copy = copy.deepcopy(deployable_units)
-
 damageCosts = {
     "low": 50000,
     "medium": 100000,
@@ -48,11 +46,11 @@ def countFiresDelayed():
         num_fires_delayed = 0
     return num_fires_delayed
 
-def singleOperationCost():
-    deployable_units_copy
-    for key, value in deployable_units_copy.items():
+def singleOperationCost(dict_copy):
+    for key, value in dict_copy.items():
         deployable = value[2]
         if deployable > 0:
+            # Remove a deployable unit to keep track of the remaining ones
             value[2] = value[2] - 1
             lowest_operation_cost = value[1]
             return lowest_operation_cost
@@ -60,8 +58,10 @@ def singleOperationCost():
 def totalOperationCost():
     total_operation_cost = 0
     num_fires_addressed = countFiresAddressed()
+    # Create a deep copy to manipulate the dictionary
+    dict_copy = copy.deepcopy(deployable_units)
     for i in range(num_fires_addressed):
-        single_operation_cost = singleOperationCost()
+        single_operation_cost = singleOperationCost(dict_copy)
         total_operation_cost += single_operation_cost
     return total_operation_cost
 
@@ -70,26 +70,20 @@ def damageCost():
     num_fires = countFires()
     num_fires_addressed = countFiresAddressed()
     for i in range(num_fires_addressed, num_fires):
-        severity = df.at[i,"severity"]
-        if severity == "high":
-            damage_cost += damageCosts["high"]
-        elif severity == "medium":
-            damage_cost += damageCosts["medium"]
-        elif severity == "low":
-            damage_cost += damageCosts["low"]
+        # Obtain the severity as a string
+        severity = str(df.at[i,"severity"])
+        # Use the string as a key to fetch the estimated damage cost
+        damage_cost += damageCosts[severity]
     return damage_cost
 
 def severityReport():
     num_fires = countFires()
     severity_report = {'low': 0, 'medium': 0, 'high': 0}
     for i in range(num_fires):
-        severity = df.at[i,"severity"]
-        if severity == "low":
-            severity_report["low"] += 1
-        elif severity == "medium":
-            severity_report["medium"] += 1
-        elif severity == "high":
-            severity_report["high"] += 1
+        # Obtain the severity as a string
+        severity = str(df.at[i,"severity"])
+        # Use the string as key to update the value
+        severity_report[severity] += 1
     return severity_report
 
 # Number of fires addressed: X
