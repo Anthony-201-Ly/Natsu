@@ -49,6 +49,7 @@ def countFiresDelayed():
     return num_fires_delayed
 
 def singleOperationCost():
+    deployable_units_copy
     for key, value in deployable_units_copy.items():
         deployable = value[2]
         if deployable > 0:
@@ -92,12 +93,12 @@ def severityReport():
     return severity_report
 
 # Number of fires addressed: X
-print(countFiresAddressed())
+print("Number of fires addressed:", countFiresAddressed())
 # Number of fires delayed: X
-print(countFiresDelayed())
+print("Number of fires delayed:", countFiresDelayed())
 # Total operational costs: X
-print(totalOperationCost())
+print("Total operational costs: $", totalOperationCost())
 # Estimated damage costs from delayed responses: X
-print(damageCost())
+print("Estimated damage costs from delayed responses: $", damageCost())
 # Fire severity report: {'low': X, 'medium': X, 'high': X}
-print(severityReport())
+print("Fire severity report:", severityReport())
