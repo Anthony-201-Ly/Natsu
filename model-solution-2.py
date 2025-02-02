@@ -9,7 +9,9 @@ historical_wildfire = pd.read_csv("historical_wildfiredata.csv")
 
 # Compare environmental and wildfire data
 # This allows us to see whether the environmental data results in a wildfire
-
+historical_environmental.join(other=historical_wildfire, on="timestamp", how="left")
+# ^^^ Error trying to merge on object and int64 columns
+print(historical_environmental)
 # Split data to X and y (independant and dependant)
 
 
