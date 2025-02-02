@@ -2,11 +2,11 @@ import pandas as pd
 df = pd.read_csv("current_wildfiredata.csv")
 
 deployableUnits = {
-    "Smoke Jumpers": [30, 5000, 5],
     "Fire Engines": [60, 2000, 10],
+    "Ground Crews": [90, 3000, 8],
+    "Smoke Jumpers": [30, 5000, 5],
     "Helicopters": [45, 8000, 3],
-    "Tanker Planes": [120, 15000, 2],
-    "Ground Crews": [90, 3000, 8]
+    "Tanker Planes": [120, 15000, 2]
 }
 
 damageCosts = {
@@ -44,10 +44,41 @@ def countFiresDelayed():
         num_fires_delayed = 0
     return num_fires_delayed
 
+def singleOperationCost():
+    deployableUnits_copy = deployableUnits.copy()
+    print(deployableUnits_copy)
+    for key, value in deployableUnits_copy.items():
+        deployable = value[2]
+        if deployable > 0:
+            value[2] = value[2] - 1
+            lowest_operation_cost = value[1]
+            return lowest_operation_cost
+
+def totalOperationCost():
+    total_operation_cost = 0
+    num_fires_addressed = countFiresAddressed()
+
+    for i in range(num_fires_addressed):
+        single_operation_cost = singleOperationCost()
+        total_operation_cost += single_operation_cost
+    return total_operation_cost
+
+def damageCost():
+    damage_cost = 0
+    num_fires = countFires()
+    num_fires_addressed = countFiresAddressed()
+    print("ERROR")
+    print(num_fires_addressed)
+    print("ERROR")
+    #for i in range(num_fires_addressed, num_fires):
+        #print(i)
+
 # Number of fires addressed: X
 print(countFiresAddressed())
 # Number of fires delayed: X
 print(countFiresDelayed())
 # Total operational costs: X
+print(totalOperationCost())
 # Estimated damage costs from delayed responses: X
+print(damageCost())
 # Fire severity report: {'low': X, 'medium': X, 'high': X}
