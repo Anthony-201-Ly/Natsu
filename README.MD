@@ -9,9 +9,10 @@ See ConUHacks 2025 - Technical Challenge.docx
 pip install -r requirements.txt
 python model-solution-1.py
 python model-solution-2.py
+python predict-user-csv.py
 ```
 
-## Optimized Output Part 1:
+## Part 1 Output With the Given future_environmental_data.csv:
 
 ```
 Number of fires addressed: 28
@@ -20,8 +21,14 @@ Total operational costs: $123000
 Estimated damage costs from delayed responses: $550000
 Fire severity report: {'low': 13, 'medium': 10, 'high': 5}
 ```
+## Part 2 Prompt the User for the csv file name:
+```
+//Prompts the user to input the CSV file name
+Place your file in this folder
+Then write the file name without the .csv extension:
+```
 
-## Ideal Output Part 2:
+## Part 2 Output With the Given future_environmental_data.csv may VARY due to the nature of Random Trees:
 
 ```
                timestamp  temperature  humidity  wind_speed  precipitation  vegetation_index  human_activity_index  latitude  longitude  fire_risk

@@ -21,7 +21,7 @@ historical_wildfire["timestamp"] = historical_wildfire["timestamp"].astype(str)
     #  by creating a new column for fire_risk which is 0 by default
 historical_fire_risk = historical_environmental.assign(fire_risk=0)
 
-print("Warning, this might take a few minutes...")
+print("Training the prediction model, this might take a few minutes...")
 # For every row in wildfire, if the timestamp is found in environmental data, set the fire_risk to 1
 index_environment = len(historical_environmental)
 index_wildfire = len(historical_wildfire)
@@ -70,10 +70,13 @@ y_rf_test_pred = rf.predict(X_test)
 #print(rf_results)
 
 ### Predict the future data
+print("Place your file in this folder/n Then input the file name without the .csv extension:")
+filename = input("Enter your value: ")
+filename = filename + ".csv"
 
 # Import future environmental data
 # X -> A ||| Y -> B
-future_environmental = pd.read_csv("future_environmental_data.csv")
+future_environmental = pd.read_csv(filename)
 # Drop all of the unneeded data for the prediction
 A = future_environmental.drop("timestamp", axis=1)
 A = A.drop("latitude", axis=1)
