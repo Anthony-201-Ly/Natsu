@@ -18,6 +18,7 @@ historical_wildfire["timestamp"] = historical_wildfire["timestamp"].astype(str)
     #  by creating a new column for fire_risk which is 0 by default
 historical_fire_risk = historical_environmental.assign(fire_risk=0)
 
+print("Warning, this might take a few minutes...")
 # For every row in wildfire, if the timestamp is found in environmental data, set the fire_risk to 1
 index_environment = len(historical_environmental)
 index_wildfire = len(historical_wildfire)
@@ -30,23 +31,23 @@ for x in range(index_environment):
             historical_fire_risk.at[x,"fire_risk"] = 1
             # Count
             num_wildfire += 1
-            print("Found one")
+            #print("Found one")
             break
 
-print("Fire Risk Column Calculated")
-print("Number of matching timestamps:", num_wildfire)
+#print("Fire Risk Column Calculated")
+#print("Number of matching timestamps:", num_wildfire)
 historical_fire_risk.to_csv("ProcessedData.csv")
 
 # Split dataframe into X and y
 y = historical_fire_risk["fire_risk"]
-print(y)
+#print(y)
 
 # Drop the fire_risk, timestamp, latitude, and longitude
 X = historical_fire_risk.drop("fire_risk", axis=1)
 X = X.drop("timestamp", axis=1)
 X = X.drop("latitude", axis=1)
 X = X.drop("longitude", axis=1)
-print(X)
+#print(X)
 
 ### Training the model
 # Randomly choose 20% of the dataset to be used as test data
@@ -80,7 +81,7 @@ B = rf.predict(A)
 # Add fire_risk to environmental data
 future_environmental["fire_risk"] = B
 
-print(future_environmental)
+#print(future_environmental)
 future_environmental.to_csv("Future_Predicted.csv")
 # Get only risks
 fire_risk = future_environmental[future_environmental["fire_risk"] == 1]
