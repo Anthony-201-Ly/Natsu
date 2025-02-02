@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+import folium
 
 # Import historical environmental data
 historical_environmental = pd.read_csv("historical_environmental_data.csv")
@@ -88,3 +89,18 @@ fire_risk = future_environmental[future_environmental["fire_risk"] == 1]
 
 print(fire_risk)
 fire_risk.to_csv("Fire_Risks.csv")
+
+# Folium
+location_df = fire_risk.filter(["latitude", "longitude"], axis=1)
+# Create a list to store all of the location data
+location_list = location_df.values.tolist()
+#print(location_list)
+
+# initialize the map and store it in a m object
+my_map = folium.Map(location = [44.2365, -72.1486], zoom_start = 4)
+for lat, lon in location_list:
+    popup_text = f"<br>Latitude: {lat}<br>Longitude: {lon}"
+    folium.Marker([lat, lon], popup=popup_text).add_to(my_map)
+# show the map
+my_map.save('my_map.html')
+
