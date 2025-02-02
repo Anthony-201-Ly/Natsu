@@ -77,7 +77,19 @@ def damageCost():
         elif severity == "low":
             damage_cost += damageCosts["low"]
     return damage_cost
-    
+
+def severityReport():
+    num_fires = countFires()
+    severity_report = {'low': 0, 'medium': 0, 'high': 0}
+    for i in range(num_fires):
+        severity = df.at[i,"severity"]
+        if severity == "low":
+            severity_report["low"] += 1
+        elif severity == "medium":
+            severity_report["medium"] += 1
+        elif severity == "high":
+            severity_report["high"] += 1
+    return severity_report
 
 # Number of fires addressed: X
 print(countFiresAddressed())
@@ -88,3 +100,4 @@ print(totalOperationCost())
 # Estimated damage costs from delayed responses: X
 print(damageCost())
 # Fire severity report: {'low': X, 'medium': X, 'high': X}
+print(severityReport())
