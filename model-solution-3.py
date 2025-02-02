@@ -29,7 +29,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 rf = RandomForestRegressor(max_depth=2, random_state=100)
 rf.fit(X_train, y_train)
 
-# Applying the model to make a prediction
+# Applying the model to make a prediction on the test data
 y_rf_train_pred = rf.predict(X_train)
 y_rf_test_pred = rf.predict(X_test)
 
@@ -44,3 +44,17 @@ rf_results.columns = ['Method', 'Training MSE', 'Training R2', 'Test MSE', 'Test
 rf_results
 
 print(rf_results)
+
+### Predict the future data
+
+# Import future environmental data
+# X -> A ||| Y -> B
+future_environmental = pd.read_csv("future_environmental_data.csv")
+# Drop all of the unneeded data for the prediction
+A = future_environmental.drop("timestamp", axis=1)
+A = A.drop("latitude", axis=1)
+A = A.drop("longitude", axis=1)
+# Predict
+B = rf.predict(A)
+
+print(B)
