@@ -34,6 +34,3 @@ for x in range(index_environment):
 print("Fire Risk Column Calculated")
 print("Number of matching timestamps:", num_wildfire)
 historical_fire_risk.to_csv("ProcessedData.csv")
-
-
-
