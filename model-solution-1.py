@@ -1,7 +1,9 @@
 import pandas as pd
+import copy as copy
+
 df = pd.read_csv("current_wildfiredata.csv")
 
-deployableUnits = {
+deployable_units = {
     "Fire Engines": [60, 2000, 10],
     "Ground Crews": [90, 3000, 8],
     "Smoke Jumpers": [30, 5000, 5],
@@ -9,15 +11,17 @@ deployableUnits = {
     "Tanker Planes": [120, 15000, 2]
 }
 
+deployable_units_copy = copy.deepcopy(deployable_units)
+
 damageCosts = {
     "low": 50000,
-    "mid": 100000,
+    "medium": 100000,
     "high": 200000
 }
 
 def countUnits():
     num_global = 0
-    for key, value in deployableUnits.items():
+    for key, value in deployable_units.items():
         num_local = value[2]
         num_global += num_local
     return num_global
@@ -45,9 +49,7 @@ def countFiresDelayed():
     return num_fires_delayed
 
 def singleOperationCost():
-    deployableUnits_copy = deployableUnits.copy()
-    print(deployableUnits_copy)
-    for key, value in deployableUnits_copy.items():
+    for key, value in deployable_units_copy.items():
         deployable = value[2]
         if deployable > 0:
             value[2] = value[2] - 1
@@ -57,7 +59,6 @@ def singleOperationCost():
 def totalOperationCost():
     total_operation_cost = 0
     num_fires_addressed = countFiresAddressed()
-
     for i in range(num_fires_addressed):
         single_operation_cost = singleOperationCost()
         total_operation_cost += single_operation_cost
@@ -67,11 +68,16 @@ def damageCost():
     damage_cost = 0
     num_fires = countFires()
     num_fires_addressed = countFiresAddressed()
-    print("ERROR")
-    print(num_fires_addressed)
-    print("ERROR")
-    #for i in range(num_fires_addressed, num_fires):
-        #print(i)
+    for i in range(num_fires_addressed, num_fires):
+        severity = df.at[i,"severity"]
+        if severity == "high":
+            damage_cost += damageCosts["high"]
+        elif severity == "medium":
+            damage_cost += damageCosts["medium"]
+        elif severity == "low":
+            damage_cost += damageCosts["low"]
+    return damage_cost
+    
 
 # Number of fires addressed: X
 print(countFiresAddressed())
