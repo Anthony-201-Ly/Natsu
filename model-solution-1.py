@@ -55,6 +55,7 @@ def singleOperationCost(dict_copy):
             lowest_operation_cost = value[1]
             return lowest_operation_cost
 
+# Every Fire is Adressed by Order of Appearance
 def totalOperationCost():
     total_operation_cost = 0
     num_fires_addressed = countFiresAddressed()
